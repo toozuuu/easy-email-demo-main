@@ -51,16 +51,17 @@
           },
           "children": [
             {
-              "type": "image",
+              "type": "text",
               "data": {
                 "value": {
-
+                  "type": "@TITLE",
+                  "content": "<h1>@title</h1>"
                 }
               },
               "attributes": {
+                "font-size": "18px",
                 "align": "center",
                 "height": "auto",
-                "src": "https://assets.maocanhua.cn/b999e7e4-9242-4435-a4f6-c8f1d6fdfd96-image.png",
                 "target": "_blank",
                 "width": "214px",
                 "padding": "10px 25px 10px 25px"
@@ -71,6 +72,7 @@
               "type": "text",
               "data": {
                 "value": {
+                  "type": "@TITLE",
                   "content": "<p style=\"text-align: center; margin: 10px 0;color:#151e23;font-size:14px;font-family:Georgia,Helvetica,Arial,sans-serif\">Product | Concept | Contact</p>"
                 }
               },
@@ -174,7 +176,7 @@
               "type": "text",
               "data": {
                 "value": {
-                  "content": "<p class=\"@title\" style=\"line-height: 30px; margin: 10px 0; text-align: center; color:#151e23; font-size:30p; font-family:Georgia,Helvetica,Arial,sans-serif\">- Our Holiday Recipes -</p>"
+                  "content": "<p id=\"wmp\" style=\"line-height: 30px; margin: 10px 0; text-align: center; color:#151e23; font-size:30p; font-family:Georgia,Helvetica,Arial,sans-serif\">@title</p>"
                 }
               },
               "attributes": {

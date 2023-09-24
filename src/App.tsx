@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Button, message, PageHeader} from 'antd';
 import mjml from 'mjml-browser';
 
@@ -108,14 +108,20 @@ const pageBlock = BlockManager.getBlockByType(BasicType.PAGE)!;
 export default function Editor() {
     const [downloadFileName, setDownloadName] = useState('download.mjml');
     // @ts-ignore
-    const [template, setTemplate] = useState<IEmailTemplate['content']>(templateData);
+    let [template, setTemplate] = useState<IEmailTemplate['content']>(templateData);
+    const [initialValues, setInitialValues] = useState({
+        subject: 'Welcome to Easy-email',
+        subTitle: 'Nice to meet you!',
+        content: templateData
+    });
+
     const {importTemplate} = useImportTemplate();
     const {exportTemplate} = useExportTemplate();
 
     const {width} = useWindowSize();
 
     const smallScene = width < 1400;
-
+    const [apiData, setApiData] = useState();
 
     const onCopyHtml = (values: IEmailTemplate) => {
         const html = mjml(JsonToMjml({
@@ -164,13 +170,47 @@ export default function Editor() {
         []
     );
 
-    const initialValues: IEmailTemplate | null = useMemo(() => {
-        return {
-            subject: 'Welcome to Easy-email',
-            subTitle: 'Nice to meet you!',
-            content: template
+    async function fetchData() {
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({title: "hello 1111"});
+            }, 2000); // 4 seconds delay
+        });
+    }
+
+    useEffect(() => {
+        fetchAPIData();
+    }, [])
+
+    const fetchAPIData = async () => {
+        const result = await fetchData();
+        // @ts-ignore
+        setApiData(result)
+    }
+
+    useEffect(() => {
+        if (!apiData) return;
+
+        const updateNestedChildren = (children: any) => {
+            for (let child of children) {
+                if (child.data && child.data.value && child.data.value.type === "@TITLE") {
+                    // @ts-ignore
+                    child.data.value.content = `<p>${apiData.title}</p>`;
+                    console.log(child.data.value.content);
+                }
+                if (child.children) {
+                    updateNestedChildren(child.children);
+                }
+            }
         };
-    }, [template]);
+
+        const copyOfTemplate = {...initialValues.content};
+        updateNestedChildren(copyOfTemplate.children);
+        setInitialValues({...initialValues, content: copyOfTemplate});
+
+    }, [apiData]);
+
 
     if (!initialValues) return null;
 
@@ -223,4 +263,5 @@ export default function Editor() {
             </EmailEditorProvider>
         </div>
     );
+
 }
