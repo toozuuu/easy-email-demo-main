@@ -1,0 +1,23 @@
+{
+  "type": "page",
+  "data": {
+    "value": {
+      "breakpoint": "480px",
+      "headAttributes": "",
+      "font-size": "14px",
+      "line-height": "1.7",
+      "headStyles": [],
+      "fonts": [],
+      "responsive": true,
+      "font-family": "lucida Grande,Verdana,Microsoft YaHei",
+      "text-color": "#000000"
+    }
+  },
+  "attributes": {
+    "background-color": "#F4F4F4",
+    "width": "600px",
+    "css-class": "mjml-body"
+  },
+  "children": [
+  ]
+}

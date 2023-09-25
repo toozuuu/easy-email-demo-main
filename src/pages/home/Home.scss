@@ -1,0 +1,37 @@
+.header {
+  height: 100px;
+  width: 100%;
+  background-color: #1b53e3;
+  padding: 10px;
+}
+
+.body {
+  padding: 50px;
+  background-color: #f9f9f8;
+  min-height: 100vh;
+
+  .item-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .item {
+      display: flex;
+      cursor: pointer;
+      background-color: #ffffff;
+      width: 350px;
+      height: 450px;
+      border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+
+      .addNew{
+        margin: auto;
+      }
+    }
+
+    .item:hover {
+      box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    }
+  }
+}

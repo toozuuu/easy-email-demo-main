@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {EmailEditor, EmailEditorProvider, IEmailTemplate, Stack} from "easy-email-editor";
 import templateData from "../../template.json";
+import newTemplate from "../../newTemplate.json";
 import {useImportTemplate} from "../../hooks/useImportTemplate";
 import {useExportTemplate} from "../../hooks/useExportTemplate";
 import {useWindowSize} from "react-use";
@@ -10,6 +11,7 @@ import {copy} from "../../urils/clipboard";
 import {Button, message, PageHeader} from "antd";
 import {FormApi} from "final-form";
 import {ExtensionProps, StandardLayout} from "easy-email-extensions";
+import {useParams} from "react-router-dom";
 
 
 const fontList = [
@@ -91,8 +93,6 @@ export default function Editor() {
     // @ts-ignore
     let [, setTemplate] = useState<IEmailTemplate['content']>(templateData);
     const [initialValues, setInitialValues] = useState({
-        subject: 'Welcome to Easy-email',
-        subTitle: 'Nice to meet you!',
         content: templateData
     });
 
@@ -103,6 +103,20 @@ export default function Editor() {
 
     const smallScene = width < 1400;
     const [apiData, setApiData] = useState();
+    const [getParam, setParam] = useState<String>();
+    const { type } = useParams();
+
+    useEffect(() => {
+        setParam(type);
+
+        if(type === 'new'){
+            setInitialValues({
+                content: newTemplate
+            });
+            // @ts-ignore
+            setTemplate(newTemplate);
+        }
+    }, [type]);
 
     const onCopyHtml = (values: IEmailTemplate) => {
         // @ts-ignore
@@ -186,11 +200,12 @@ export default function Editor() {
             }
         };
 
+        console.log(getParam)
         const copyOfTemplate = {...initialValues.content};
         updateNestedChildren(copyOfTemplate.children);
         setInitialValues({...initialValues, content: copyOfTemplate});
 
-    }, [apiData]);
+    }, [apiData,getParam]);
 
 
     if (!initialValues) return null;
