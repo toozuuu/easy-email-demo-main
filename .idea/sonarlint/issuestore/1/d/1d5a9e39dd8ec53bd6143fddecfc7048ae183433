@@ -1,8 +1,0 @@
-
-ptypescript:S2201U"UConsider using "forEach" instead of "map" as its return value is not being used here.(ÎìîH
-qtypescript:S2201_"UConsider using "forEach" instead of "map" as its return value is not being used here.(ÊÂ±Ü
-ptypescript:S2201e"UConsider using "forEach" instead of "map" as its return value is not being used here.(³Æ"
-Dtypescript:S6557‚"'Use 'String#startsWith' method instead.(‘¦ª
-xtypescript:S6582ª"[Prefer using an optional chain expression instead, as it's more concise and easier to read.(Ñù´‡
-\typescript:S4030Ä"?Either use this collection's contents or remove the collection.(³òœ†
-dtypescript:S6544Ç"GPromise returned in function argument where a void return was expected.(Àäó
