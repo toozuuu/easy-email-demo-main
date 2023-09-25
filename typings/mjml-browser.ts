@@ -12,7 +12,6 @@ declare module 'mjml-browser' {
     html: string;
     errors: string[];
   };
-  export default transform;
 }
 
 interface MjmlBlockItem {

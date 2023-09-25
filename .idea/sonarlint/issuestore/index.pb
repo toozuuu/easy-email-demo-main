@@ -31,3 +31,5 @@ W
 Unode_modules/easy-email-editor/lib/components/Provider/EmailEditorProvider/index.d.ts,0\9\097e75e5b7f108c18ba60d1fcef3ed171a2aa9db
 A
 src/template.json,7\5\750587b1deafdcf6c2860d709e83c84802788629
+F
+src/urils/clipboard.ts,1\f\1fc0c9567b92d52b626f064af184858b9b9cf8ee
