@@ -7,7 +7,6 @@ import {useExportTemplate} from "../../hooks/useExportTemplate";
 import {useWindowSize} from "react-use";
 import mjml from "mjml-browser";
 import {AdvancedType, JsonToMjml} from "easy-email-core";
-import {copy} from "../../urils/clipboard";
 import {Button, message, PageHeader} from "antd";
 import {FormApi} from "final-form";
 import {ExtensionProps, StandardLayout} from "easy-email-extensions";
@@ -92,7 +91,7 @@ export default function Editor() {
     const [downloadFileName, setDownloadName] = useState('download.mjml');
     // @ts-ignore
     let [, setTemplate] = useState<IEmailTemplate['content']>(templateData);
-    const [initialValues, setInitialValues] = useState({
+    const [initialValues, setInitialValues] = useState<any>({
         content: templateData
     });
 
@@ -103,22 +102,20 @@ export default function Editor() {
 
     const smallScene = width < 1400;
     const [apiData, setApiData] = useState();
-    const [getParam, setParam] = useState<String>();
-    const { type } = useParams();
+    const [getParam, setParam] = useState<string>();
+    const {type} = useParams();
 
     useEffect(() => {
         setParam(type);
 
-        if(type === 'new'){
+        if (type === 'new') {
             setInitialValues({
                 content: newTemplate
             });
-            // @ts-ignore
-            setTemplate(newTemplate);
         }
     }, [type]);
 
-    const onCopyHtml = (values: IEmailTemplate) => {
+    const onExportHTML = (values: IEmailTemplate) => {
         // @ts-ignore
         const html = mjml(JsonToMjml({
             data: values.content,
@@ -129,8 +126,21 @@ export default function Editor() {
             validationLevel: 'soft',
         }).html;
 
-        copy(html);
-        message.success('Copied to pasteboard!')
+        const blob = new Blob([html], {type: "text/html"});
+
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "template.html";  // Set desired filename here
+
+        document.body.appendChild(a);
+        a.click();
+
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        message.success('Exported HTML file!');
     };
 
     const onImportMjml = async () => {
@@ -138,6 +148,12 @@ export default function Editor() {
             const [filename, data] = await importTemplate();
             setDownloadName(filename);
             setTemplate(data);
+            setInitialValues({
+                content: data
+            });
+
+            message.success('Imported mjml file!');
+
         } catch (error) {
             message.error('Invalid mjml file');
         }
@@ -151,6 +167,8 @@ export default function Editor() {
                 mode: 'production',
                 context: values.content
             }))
+
+        message.success('Exported mjml file!');
     };
 
     const onSubmit = useCallback(
@@ -200,12 +218,11 @@ export default function Editor() {
             }
         };
 
-        console.log(getParam)
         const copyOfTemplate = {...initialValues.content};
         updateNestedChildren(copyOfTemplate.children);
         setInitialValues({...initialValues, content: copyOfTemplate});
 
-    }, [apiData,getParam]);
+    }, [apiData, getParam]);
 
 
     if (!initialValues) return null;
@@ -227,8 +244,8 @@ export default function Editor() {
                                 title='Edit'
                                 extra={
                                     <Stack alignment="center">
-                                        <Button onClick={() => onCopyHtml(values)}>
-                                            Copy Html
+                                        <Button onClick={() => onExportHTML(values)}>
+                                            Export Html
                                         </Button>
                                         <Button onClick={() => onExportMjml(values)}>
                                             Export Template
